@@ -58,7 +58,7 @@ pipFile="/home/$findUser/get-pip.py"
 if [[ -f "$pipFile" ]]; then
     echo -e "$yellowstar Pip2 file found. Skipping download."
 else
-    eval wget -q $pip2_new -O $pipFile
+    eval wget $pip2_new -O $pipFile
     echo -e "$greenplus Downloaded get-pip.py to $pipFile"
 fi
 

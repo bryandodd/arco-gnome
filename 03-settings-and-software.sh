@@ -42,6 +42,7 @@
     bat_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/bat/config"
     aws_update_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/scripts/update-aws-cli.sh"
     aws_remove_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/scripts/remove-aws-cli.sh"
+    pip2_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/python/pip2/get-pip.py"
 
 # helpers
     findUser=$(logname)
@@ -158,16 +159,44 @@ install_python() {
         echo -e "\n  $greenplus Python2 Setup Tools : installed"
     fi
 
-    paru -Q python2-pip > /dev/null 2>&1
-    if [[ $? -ne 0 ]]; then
-        paru -Sy python2-pip --needed --noconfirm
-        echo -e "\n  $greenplus Python2 pip : installed"
-    fi
+    #paru -Q python2-pip > /dev/null 2>&1
+    #if [[ $? -ne 0 ]]; then
+    #    paru -Sy python2-pip --needed --noconfirm
+    #    echo -e "\n  $greenplus Python2 pip : installed"
+    #fi
 
     paru -Q python-pip > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         paru -Sy python-pip --needed --noconfirm
         echo -e "\n  $greenplus Python3 pip : installed"
+    fi
+}
+
+manual_pip2_install() {
+#     || Manual Pip2 Installation ||
+#     \\--------------------------||
+#      \\-- (because everybody loves to hate python2)
+#       |-- package officially dropped from aur so had to resort to 'plan c'
+#       |-- courtesy of https://raw.githubusercontent.com/pypa/get-pip/3843bff3a0a61da5b63ea0b7d34794c5c51a2f11/2.7/get-pip.py
+#       |-- and github.com/dewalt-arch/pimpmykali
+
+    pipFile="/home/$findUser/get-pip.py"
+    if [[ -f "$pipFile" ]]; then
+        echo -e "$yellowstar Pip2 install file found. Skipping download."
+    else
+        eval wget $pip2_new -O $pipFile
+        echo -e "$greenplus Downloaded get-pip.py to $pipFile"
+    fi
+
+    echo -e "\n  $yellowstar Python2 pip : install starting"
+    eval python2 $pipFile
+    echo -e "\n  $greenplus Python2 pip : installed"
+    rm -f $pipFile
+    echo -e "\n  $yellowstar $pipFile no longer required - deleted"
+
+    echo -e "\n  $yellowstar Python3 pip : reinstall required"
+    paru -Sy python-pip --noconfirm
+    echo -e "\n  $greenplus Python3 pip : (re)installed"
     fi
 }
 
@@ -432,6 +461,7 @@ check_architecture() {
 config_neofetch
 install_p10k
 install_python
+manual_pip2_install
 install_flameshot
 install_vscode
 install_msteams
