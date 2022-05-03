@@ -114,7 +114,7 @@ remove_bloat() {
 
     echo -e "\n${color_cyan}Purging bloatware (app only) ...${color_nocolor}\n"
     appOnlyRemoval=("gnome-builder")
-    for appName in ${bloatware[@]}; do
+    for appName in ${appOnlyRemoval[@]}; do
         pacman -Q $appName > /dev/null 2>&1
         if [[ $? -eq 0 ]]; then
             pacman -R $appName --unneeded --noconfirm
@@ -156,7 +156,8 @@ get_visual_components() {
 #     \\--------------------------------------------------------------|| 
     paru -Q vimix-cursors > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        paru -Sy aur/vimix-cursors --needed --noconfirm
+        aurInstall="paru -Sy aur/vimix-cursors --needed --noconfirm"
+        sudo -u $findUser $aurInstall
         echo -e "\n  $greenplus vimix-cursors : installed"
     fi
 
@@ -164,40 +165,10 @@ get_visual_components() {
 #     \\------------------------------------------------------------------|| 
     paru -Q tela-icon-theme > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        paru -Sy aur/tela-icon-theme --needed --noconfirm
+        aurInstall="paru -Sy aur/tela-icon-theme --needed --noconfirm"
+        sudo -u $findUser $aurInstall
         echo -e "\n  $greenplus tela-icon-theme : installed"
     fi
-}
-
-tweak_settings() {
-#     || Tweak Gnome settings ||
-#     \\----------------------||
-    echo -e "\n${color_cyan}Setting appearance to dark mode ...${color_nocolor}"
-    gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-
-    echo -e "\n${color_cyan}Disabling \"screen blanking\" on inactivity ...${color_nocolor}"
-    gsettings set org.gnome.desktop.session idle-delay 0
-
-    echo -e "\n${color_cyan}Disabling auto-suspend on inactivity ...${color_nocolor}"
-    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
-
-    echo -e "\n${color_cyan}Adding titlebar minimize/maximize buttons ...${color_nocolor}"
-    gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
-
-    echo -e "\n${color_cyan}Enabling weekday on system clock ...${color_nocolor}"
-    gsettings set org.gnome.desktop.calendar clock-show-weekday true
-
-    echo -e "\n${color_cyan}Show hidden files ...${color_nocolor}"
-    gsettings set org.gtk.settings.file-chooser show-hidden true
-
-    echo -e "\n${color_cyan}Sort directories first ...${color_nocolor}"
-    gsettings set org.gtk.settings.file-chooser sort-directories-first true
-
-    echo -e "\n${color_cyan}Set icon theme ...${color_nocolor}"
-    gsettings set org.gnome.desktop.interface icon-theme 'Tela-dark'
-
-    echo -e "\n${color_cyan}Sort cursor theme ...${color_nocolor}"
-    gsettings set org.gnome.desktop.interface cursor-theme 'Vimix-cursors'
 }
 
 gnome_ext_installers() {
@@ -205,7 +176,8 @@ gnome_ext_installers() {
 #     \\-----------------------------------------------------------------------------------------------||
     paru -Q gnome-shell-extension-installer > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        paru -Sy aur/gnome-shell-extension-installer --needed --noconfirm
+        aurInstall="paru -Sy aur/gnome-shell-extension-installer --needed --noconfirm"
+        sudo -u $findUser $aurInstall
         echo -e "\n  $greenplus gnome-shell-extension-installer : installed"
     fi
 
@@ -213,7 +185,8 @@ gnome_ext_installers() {
 #     \\-------------------------------------------------------------------||
     paru -Q extension-manager > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        paru -Sy aur/extension-manager --needed --noconfirm
+        aurInstall="paru -Sy aur/extension-manager --needed --noconfirm"
+        sudo -u $findUser $aurInstall
         echo -e "\n  $greenplus extension-manager : installed"
     fi
 }
@@ -293,9 +266,8 @@ install_p10k_fonts() {
 remove_bloat
 get_prerequisites
 get_visual_components
-tweak_settings
 gnome_ext_installers
-install_extensions
+#install_extensions
 revert_network_naming
 fetch_kitty_config
 switch_to_zsh

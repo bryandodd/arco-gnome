@@ -108,6 +108,7 @@ setopt GLOB_DOTS
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+export PAGER='most'
 export HISTCONTROL=ignoreboth:erasedups
 
 # Make nano the default editor
