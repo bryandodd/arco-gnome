@@ -45,8 +45,8 @@ Predefined settings for ArcMenu and Dash-to-Panel can be downloaded from this re
 * Downloads repo config file for Neofetch
 * Installs and configures Powerlevel10k for zsh
 * Installs
-    * Python 2
-    * Python 3
+    * Python 2 _(w/pip2 via manual install)_
+    * Python 3 _(w/pip3)_
     * Flameshot
     * Visual Studio Code
     * Microsoft Teams
