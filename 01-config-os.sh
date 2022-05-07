@@ -252,11 +252,19 @@ install_p10k_fonts() {
     awesomeTerminalFont="paru -Sy awesome-terminal-fonts --needed"
     powerlineGitFont="paru -Sy powerline-fonts-git --needed"
     jetbrainsNerdFont="paru -Sy nerd-fonts-jetbrains-mono --needed"
+    notoNerdFont="paru -Sy nerd-fonts-noto-sans-regular-complete --needed"
+    cascadiaNerdFont="paru -Sy nerd-fonts-cascadia-code --needed"
+    overpassNerdFont="paru -Sy nerd-fonts-overpass --needed"
+    sourcecodeNerdFont="paru -Sy nerd-fonts-source-code-pro --needed"
 
     sudo -u $findUser $mesloNerdFont
     sudo -u $findUser $awesomeTerminalFont
     sudo -u $findUser $powerlineGitFont
     sudo -u $findUser $jetbrainsNerdFont
+    sudo -u $findUser $notoNerdFont
+    sudo -u $findUser $cascadiaNerdFont
+    sudo -u $findUser $overpassNerdFont
+    sudo -u $findUser $sourcecodeNerdFont
 }
 
 

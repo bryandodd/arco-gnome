@@ -197,7 +197,6 @@ manual_pip2_install() {
     echo -e "\n  $yellowstar Python3 pip : reinstall required"
     paru -Sy python-pip --noconfirm
     echo -e "\n  $greenplus Python3 pip : (re)installed"
-    fi
 }
 
 install_flameshot() {

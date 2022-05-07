@@ -1,5 +1,5 @@
 [/]
-application-shortcuts-list=[['Software', 'system-software-install', 'ArcMenu_Software'], ['Settings', '', 'org.gnome.Settings.desktop'], ['Tweaks', '', 'org.gnome.tweaks.desktop'], ['Terminal', '', 'kitty'], ['Activities Overview', 'view-fullscreen-symbolic', 'ArcMenu_ActivitiesOverview']]
+application-shortcuts-list=[['Software', 'system-software-install', 'ArcMenu_Software'], ['Settings', '', 'org.gnome.Settings.desktop'], ['Tweaks', '', 'org.gnome.tweaks.desktop'], ['ArcMenu Settings', '/home/bryan/.local/share/gnome-shell/extensions/arcmenu@arcmenu.com/media/icons/menu_icons/arc-menu-symbolic.svg', 'gnome-extensions prefs arcmenu@arcmenu.com'], ['Activities Overview', 'view-fullscreen-symbolic', 'ArcMenu_ActivitiesOverview']]
 apps-show-extra-details=false
 arcmenu-extra-categories-links=[(0, false), (1, false), (2, false), (3, false), (4, false)]
 category-icon-type='Symbolic'
@@ -26,8 +26,9 @@ menu-item-hover-bg-color='rgb(21,83,158)'
 menu-item-hover-fg-color='rgb(255,255,255)'
 menu-separator-color='rgba(255,255,255,0.1)'
 multi-monitor=true
-pinned-app-list=['Google Chrome', '', 'google-chrome.desktop', 'Files', '', 'org.gnome.Nautilus.desktop', 'Terminal', '', 'org.gnome.Terminal.desktop', 'ArcMenu Settings', 'ArcMenu_ArcMenuIcon', 'gnome-extensions prefs arcmenu@arcmenu.com']
+pinned-app-list=['Terminal', '/usr/share/icons/Tela-dark/scalable/apps/terminal.svg', 'kitty.desktop', 'Google Chrome', '', 'google-chrome.desktop', 'Nautilus', '', 'org.gnome.Nautilus.desktop', 'Thunar', '', 'thunar.desktop', 'Slack', '', 'slack.desktop', 'Microsoft Teams', '', 'teams.desktop', 'Visual Studio Code', '', 'visual-studio-code.desktop', 'Remote Desktop', '', 'org.remmina.Remmina.desktop']
 prefs-visible-page=0
+recently-installed-apps=@as []
 shortcut-icon-type='Symbolic'
 show-activities-button=false
 show-external-devices=true

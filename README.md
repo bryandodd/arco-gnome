@@ -23,6 +23,7 @@ $ sudo chmod +x 01-optimize-os.sh
 
 ### 02-software.sh _(run without sudo)_
 * Configures preferred Gnome settings
+* Sets several mimetypes to prefer Visual Studio Code _(recommended to install VSCode before running this script)_
 
 ### Install Gnome Extensions
 Manually install preferred Gnome shell extensions. Those listed below are taken from https://extensions.gnome.org/. The easiest way to install these is by installing the [GNOME Shell Integration](https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep) Google Chrome browser extension, then install the `chrome-gnome-shell` native host connector service:
@@ -37,7 +38,7 @@ $ paru -Sy aur/chrome-gnome-shell-git --needed --noconfirm
 * [Clipboard Indicator](https://extensions.gnome.org/extension/779/clipboard-indicator/)
 * [UTCClock](https://extensions.gnome.org/extension/1183/utcclock/)
 
-Predefined settings for ArcMenu and Dash-to-Panel can be downloaded from this repo and imported into their respective extensions:
+Predefined settings for ArcMenu and Dash-to-Panel can be downloaded from this repo and imported into their respective extensions. Because of the settings used in these files, its recommended that you hold off applying these settings until you've run at least the `03-settings-and-software.sh` script.
 * [ArcMenu Settings](https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/arcmenu/arcmenu-settings.bak)
 * [Dash-to-Panel Settings](https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/dash-to-panel/dtp-settings.bak)
 
