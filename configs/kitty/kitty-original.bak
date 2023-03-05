@@ -6,11 +6,10 @@
 #: individual font faces and even specify special fonts for particular
 #: characters.
 
-#font_family      MesloLGS NF
-font_family      JetBrainsMono Nerd Font
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
+# font_family      monospace
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
 
 #: You can specify different fonts for the bold/italic/bold-italic
 #: variants. To get a full list of supported fonts use the `kitty
@@ -25,7 +24,7 @@ bold_italic_font auto
 #:     italic_font      Operator Mono Book Italic
 #:     bold_italic_font Operator Mono Medium Italic
 
-font_size 10.0
+# font_size 11.0
 
 #: Font size (in pts)
 
@@ -48,13 +47,7 @@ font_size 10.0
 #: support, because it will force kitty to always treat the text as
 #: LTR, which FriBidi expects for terminals.
 
-
-# symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
 # symbol_map
-# from https://sw.kovidgoyal.net/kitty/faq/#kitty-is-not-able-to-use-my-favorite-font
-# symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D2,U+E0D4,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E62F,U+E700-U+E7C5,U+F000-U+F2E0,U+F300-U+F31C,U+F400-U+F4A9,U+F500-U+F8FF Symbols Nerd Font
-# but from my own research...
-## symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D2,U+E0D4,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E634,U+E700-U+E7C5,U+EA60-U+EA88,U+EA8A-U+EA8C,U+EA8F-U+EAC7,U+EAC9-U+EAC9,U+EACC-U+EAFA,U+EAFC-U+EB09,U+EB0B-U+EB4E,U+EB50-U+EBEB,U+F000-U+F2E0,U+F300-U+F32F,U+F400-U+F4A8,U+F500-U+F8FF,U+F900-U+FD46 Symbols Nerd Font Mono
 
 #: E.g. symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
 
@@ -220,7 +213,7 @@ font_size 10.0
 #: special keyword: background. Note that if cursor is set to none
 #: then this option is ignored.
 
-cursor_shape block
+# cursor_shape block
 
 #: The cursor shape can be one of block, beam, underline. Note that
 #: when reloading the config this will be changed only if the cursor
@@ -239,7 +232,7 @@ cursor_shape block
 
 #: The thickness of the underline cursor (in pts).
 
-cursor_blink_interval .5
+# cursor_blink_interval -1
 
 #: The interval to blink the cursor (in seconds). Set to zero to
 #: disable blinking. Negative values mean use system default. Note
@@ -255,7 +248,6 @@ cursor_blink_interval .5
 #: Scrollback {{{
 
 # scrollback_lines 2000
-scrollback_lines 300000
 
 #: Number of lines of history to keep in memory for scrolling back.
 #: Memory is allocated on demand. Negative numbers are (effectively)
@@ -278,7 +270,7 @@ scrollback_lines 300000
 #: set to 0 if there is no cursor, for example, when showing the last
 #: command output.
 
-scrollback_pager_history_size 100
+# scrollback_pager_history_size 0
 
 #: Separate scrollback history size (in MB), used only for browsing
 #: the scrollback buffer with pager. This separate buffer is not
@@ -333,8 +325,8 @@ scrollback_pager_history_size 100
 #: robustly with the ever-changing sea of bugs that is Cocoa is too
 #: much effort.
 
-url_color #0087bd
-url_style dotted
+# url_color #0087bd
+# url_style curly
 
 #: The color and style for highlighting URLs on mouse-over. url_style
 #: can be one of: none, straight, double, curly, dotted, dashed.
@@ -358,7 +350,7 @@ url_style dotted
 #: underline and the mouse cursor becomes a hand over them. Even if
 #: this option is disabled, URLs are still clickable.
 
-# url_excluded_characters 
+# url_excluded_characters
 
 #: Additional characters to be disallowed from URLs, when detecting
 #: URLs under the mouse cursor. By default, all characters that are
@@ -638,7 +630,7 @@ url_style dotted
 
 #: Terminal bell {{{
 
-enable_audio_bell yes
+# enable_audio_bell yes
 
 #: The audio bell. Useful to disable it in environments that require
 #: silence.
@@ -659,7 +651,7 @@ enable_audio_bell yes
 #: Request window attention on bell. Makes the dock icon bounce on
 #: macOS or the taskbar flash on linux.
 
-bell_on_tab "🔔 "
+# bell_on_tab "🔔 "
 
 #: Some text or a Unicode symbol to show on the tab if a window in the
 #: tab that does not have focus has a bell. If you want to use leading
@@ -858,7 +850,7 @@ bell_on_tab "🔔 "
 
 #: Tab bar {{{
 
-tab_bar_edge top
+# tab_bar_edge bottom
 
 #: The edge to show the tab bar on, top or bottom.
 
@@ -873,7 +865,7 @@ tab_bar_edge top
 #: The second number is the margin between the tab bar and the
 #: contents of the current tab.
 
-tab_bar_style slant
+# tab_bar_style fade
 
 #: The tab bar style, can be one of:
 
@@ -994,12 +986,12 @@ tab_bar_style slant
 #: Template to use for active tabs. If not specified falls back to
 #: tab_title_template.
 
-active_tab_foreground   #000
-active_tab_background   #9fc5e8
-active_tab_font_style   bold-italic
-inactive_tab_foreground #444
-inactive_tab_background #999
-inactive_tab_font_style normal
+# active_tab_foreground   #000
+# active_tab_background   #eee
+# active_tab_font_style   bold-italic
+# inactive_tab_foreground #444
+# inactive_tab_background #999
+# inactive_tab_font_style normal
 
 #: Tab bar colors and styles.
 
@@ -1024,7 +1016,7 @@ inactive_tab_font_style normal
 
 #: The foreground and background colors.
 
-background_opacity 0.85
+# background_opacity 1.0
 
 #: The opacity of the background. A number between zero and one, where
 #: one is opaque and zero is fully transparent. This will only work if
@@ -1282,7 +1274,7 @@ background_opacity 0.85
 #: socket or socket-only. Changing this option by reloading the config
 #: is not supported.
 
-# env 
+# env
 
 #: Specify the environment variables to be set in all child processes.
 #: Using the name with an equal sign (e.g. env VAR=) will set it to
@@ -1545,8 +1537,7 @@ background_opacity 0.85
 #: configuration will change this value only for newly created OS
 #: windows.
 
-linux_display_server auto
-#linux_display_server x11
+# linux_display_server auto
 
 #: Choose between Wayland and X11 backends. By default, an appropriate
 #: backend based on the system state is chosen automatically. Set it

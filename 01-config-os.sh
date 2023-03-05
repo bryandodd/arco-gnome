@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Arcolinux | Gnome Customization - Author: Bryan Dodd
+# 01-config-os.sh
+#
+# Disclaimer: Author assumes no liability for any damage resulting from use, misuse, or any other crazy
+#             idea somebody attempts using, incorporating, deconstructing, or anything else with this tool.
+
+# revision
+    revision="0.2.1"
+    baseDistro="v23.03.01"
+
 # colors
     color_nocolor='\e[0m'
     color_black='\e[0;30m'
@@ -58,30 +68,45 @@ fi
 ## Install Config
 ### Kernel
 ##  - Linux kernel
+##  * Linux lts
 ##  - Intel-ucode
 ### Drivers
 ##  - Xf86-video-amdgpu
 ### Login
 ##  - SDDM
+##  * LightDM
 ### Desktop
 ##  - Gnome
 ### ArcoLinux Tools
+##  * Third Party Packages / arcolinux-pamac-all
 ##  - Meta Packages / arcolinux-meta-sddm-themes
 ##  - Applications / arcolinux-tweak-tool-git
-##  - Wallpapers / arcolinux-sddm-backgrounds-git
-##  - SDDM Themes
+##  * Wallpapers / all
+##  * SDDM Themes / all
+### Communication
+##  * slack-desktop
+##  * teams
+##  * Connect Remotely / remmina
+### Development
+##  * visual-studio-code-bin
 ### Internet
 ##  - firefox-ublock-origin
 ##  - google-chrome
+##  * chromium
 ### Terminals
 ##  - kitty
 ### File Managers
 ##  - nautilus
 ### Utilities
-##  - Installers / pamac-all
 ##  - Installers / paru-bin
+##  * Utilities / btop
+##  * Utilities / duf
+##  * Utilities / neofetch
+##  * Utilities / hw-probe
+##  * Utilities / wireshark-qt
 ### Applications
 ##  - Vmware / open-vm-tools
+##  * Password Manager / keepassxc
 
 ### NOTES:
 ## App Icons Taskbar (https://www.omgubuntu.co.uk/2022/03/app-icons-taskbar-gnome-extension)
@@ -101,7 +126,7 @@ remove_bloat() {
 #     || Remove extra software packages ||
 #     \\--------------------------------||
     echo -e "\n${color_cyan}Purging bloatware (including dependencies) ...${color_nocolor}\n"
-    bloatware=("gnome-tetravex" "variety" "telegram-desktop" "gnome-taquin" "tali" "swell-foop" "gnome-sudoku" "guvcview" "simplescreenrecorder" "gnome-screenshot" "gnome-robots" "four-in-a-row" "gnome-mahjongg" "iagno" "gnome-recipes" "quadrapassel" "pragha" "polari" "gnome-photos" "peek" "mugshot" "gnome-mines" "gnome-maps" "lightsoff" "hitori" "guake" "arcolinux-guake-autostart-git" "gnome-nibbles" "five-or-more" "evolution" "evolution-data-server" "gnome-chess" "gnome-boxes" "gnome-books" "gnome-klotski" "accerciser" "cheese")
+    bloatware=("gnome-tetravex" "variety" "telegram-desktop" "gnome-taquin" "tali" "swell-foop" "gnome-sudoku" "guvcview" "simplescreenrecorder" "gnome-screenshot" "gnome-robots" "four-in-a-row" "gnome-mahjongg" "iagno" "gnome-recipes" "quadrapassel" "pragha" "polari" "gnome-photos" "peek" "gnome-mines" "gnome-maps" "lightsoff" "hitori" "guake" "arcolinux-guake-autostart-git" "gnome-nibbles" "five-or-more" "evolution" "evolution-data-server" "gnome-chess" "gnome-boxes" "gnome-books" "gnome-klotski" "accerciser" "cheese" "arcolinux-conky-collection-git" "arcolinux-variety-autostart-git" "arcolinux-variety-git" "avahi" "conky-lua-archers" "geary" "gnome-games" "guvcview-common" "libgnone-games-support")
     for appName in ${bloatware[@]}; do
         pacman -Q $appName > /dev/null 2>&1
         if [[ $? -eq 0 ]]; then
@@ -113,7 +138,7 @@ remove_bloat() {
     done
 
     echo -e "\n${color_cyan}Purging bloatware (app only) ...${color_nocolor}\n"
-    appOnlyRemoval=("gnome-builder")
+    appOnlyRemoval=("gnome-builder" "endeavour")
     for appName in ${appOnlyRemoval[@]}; do
         pacman -Q $appName > /dev/null 2>&1
         if [[ $? -eq 0 ]]; then
@@ -156,8 +181,9 @@ get_visual_components() {
 #     \\--------------------------------------------------------------|| 
     paru -Q vimix-cursors > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        aurInstall="paru -Sy aur/vimix-cursors --needed --noconfirm"
-        sudo -u $findUser $aurInstall
+        #aurInstall="paru -Sy aur/vimix-cursors --needed --noconfirm"
+        #sudo -u $findUser $aurInstall
+        paru -Sy arcolinux_repo_3party/vimix-cursors --needed --noconfirm
         echo -e "\n  $greenplus vimix-cursors : installed"
     fi
 
@@ -210,7 +236,7 @@ install_extensions() {
 
 #     || Transparent Topbar (https://extensions.gnome.org/extension/1765/transparent-topbar/) ||
 #     \\--------------------------------------------------------------------------------------||
-    gnome-shell-extension-installer 1765 --yes
+    #gnome-shell-extension-installer 1765 --yes
 
 #     || Clipboard Indicator (https://extensions.gnome.org/extension/779/clipboard-indicator/) ||
 #     \\---------------------------------------------------------------------------------------||
@@ -246,25 +272,55 @@ switch_to_zsh() {
 install_p10k_fonts() {
     # Install fonts necessary for Powerlevel10k theme
 
-    echo -e "\n  $yellowstar fonts : now attempting font install as user$color_other_yellow $findUser $color_nocolor"
+    #echo -e "\n  $yellowstar fonts : now attempting font install as user$color_other_yellow $findUser $color_nocolor"
 
-    mesloNerdFont="paru -Sy ttf-meslo-nerd-font-powerlevel10k --needed"
-    awesomeTerminalFont="paru -Sy awesome-terminal-fonts --needed"
-    powerlineGitFont="paru -Sy powerline-fonts-git --needed"
-    jetbrainsNerdFont="paru -Sy nerd-fonts-jetbrains-mono --needed"
-    notoNerdFont="paru -Sy nerd-fonts-noto-sans-regular-complete --needed"
-    cascadiaNerdFont="paru -Sy nerd-fonts-cascadia-code --needed"
-    overpassNerdFont="paru -Sy nerd-fonts-overpass --needed"
-    sourcecodeNerdFont="paru -Sy nerd-fonts-source-code-pro --needed"
+    #mesloNerdFont="paru -Sy ttf-meslo-nerd-font-powerlevel10k --needed"
+    #awesomeTerminalFont="paru -Sy awesome-terminal-fonts --needed"
+    #powerlineGitFont="paru -Sy powerline-fonts-git --needed"
+    #jetbrainsNerdFont="paru -Sy nerd-fonts-jetbrains-mono --needed"
+    #notoNerdFont="paru -Sy nerd-fonts-noto-sans-regular-complete --needed"
+    #cascadiaNerdFont="paru -Sy nerd-fonts-cascadia-code --needed"
+    #overpassNerdFont="paru -Sy nerd-fonts-overpass --needed"
+    #sourcecodeNerdFont="paru -Sy nerd-fonts-source-code-pro --needed"
 
-    sudo -u $findUser $mesloNerdFont
-    sudo -u $findUser $awesomeTerminalFont
-    sudo -u $findUser $powerlineGitFont
-    sudo -u $findUser $jetbrainsNerdFont
-    sudo -u $findUser $notoNerdFont
-    sudo -u $findUser $cascadiaNerdFont
-    sudo -u $findUser $overpassNerdFont
-    sudo -u $findUser $sourcecodeNerdFont
+    #sudo -u $findUser $mesloNerdFont
+    paru -Sy arcolinux_repo_3party/ttf-meslo-nerd-font-powerlevel10k --needed --noconfirm
+    echo -e "\n  $greenplus fonts : meslo nerd font powerlevel10k - installed"
+
+    #sudo -u $findUser $awesomeTerminalFont
+    paru -Sy community/awesome-terminal-fonts --needed --noconfirm
+    echo -e "\n  $greenplus fonts : awesome terminal fonts - installed"
+
+    #sudo -u $findUser $powerlineGitFont
+    paru -Sy community/powerline-fonts --needed --noconfirm
+    echo -e "\n  $greenplus fonts : powerline fonts - installed"
+    
+    #sudo -u $findUser $jetbrainsNerdFont
+    paru -Sy community/ttf-jetbrains-mono-nerd --needed --noconfirm
+    echo -e "\n  $greenplus fonts : jetbrains mono nerd font - installed"
+
+    #sudo -u $findUser $notoNerdFont
+    paru -Sy community/ttf-noto-nerd --needed --noconfirm
+    echo -e "\n  $greenplus fonts : noto nerd font - installed"
+
+    #sudo -u $findUser $cascadiaNerdFont
+    paru -Sy community/otf-cascadia-code-nerd --needed --noconfirm
+    echo -e "\n  $greenplus fonts : cascadia code nerd font - installed"
+
+    #sudo -u $findUser $overpassNerdFont
+    paru -Sy community/otf-overpass-nerd --needed --noconfirm
+    echo -e "\n  $greenplus fonts : overpass nerd font - installed"
+    
+    #sudo -u $findUser $sourcecodeNerdFont
+    paru -Sy arcolinux_repo_3party/nerd-fonts-source-code-pro --needed --noconfirm
+    echo -e "\n  $greenplus fonts : source code pro nerd font - installed"
+
+    paru -Sy community/ttf-nerd-fonts-symbols-common --needed --noconfirm
+    paru -Sy community/ttf-nerd-fonts-symbols-2048-em-mono --needed --noconfirm
+    paru -Sy community/ttf-nerd-fonts-symbols-2048-em --needed --noconfirm
+    paru -Sy community/ttf-nerd-fonts-symbols-1000-em-mono --needed --noconfirm
+    paru -Sy community/ttf-nerd-fonts-symbols-1000-em --needed --noconfirm
+    echo -e "\n  $greenplus fonts : nerd fonts symbols packages (multiple) - installed"
 }
 
 

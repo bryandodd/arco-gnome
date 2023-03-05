@@ -41,6 +41,13 @@ ipInfo() {
 alias expandurl="expandUrl "
 expandUrl() { curl -sIL $1 | grep ^Location; }
 
+alias hosts="code /etc/hosts"
+alias profile="code ~/.zshrc"
+alias aliases="code ~/.aliases"
+
+alias cat="bat -P"
+alias cat-page="bat"
+
 ## Additional Helpers
 
 ## End Additional Helpers

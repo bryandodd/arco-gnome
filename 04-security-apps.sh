@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Arcolinux | Gnome Customization - Author: Bryan Dodd
+# 04-security-apps.sh
+#
+# Disclaimer: Author assumes no liability for any damage resulting from use, misuse, or any other crazy
+#             idea somebody attempts using, incorporating, deconstructing, or anything else with this tool.
+
+# revision
+    revision="0.2.1"
+    baseDistro="v23.03.01"
+
 # colors
     color_nocolor='\e[0m'
     color_black='\e[0;30m'

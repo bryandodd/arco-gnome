@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Arcolinux | Gnome Customization - Author: Bryan Dodd
+# 03-settings-and-software.sh
+#
+# Disclaimer: Author assumes no liability for any damage resulting from use, misuse, or any other crazy
+#             idea somebody attempts using, incorporating, deconstructing, or anything else with this tool.
+
+# revision
+    revision="0.2.1"
+    baseDistro="v23.03.01"
+
 # colors
     color_nocolor='\e[0m'
     color_black='\e[0;30m'
@@ -210,6 +220,7 @@ install_flameshot() {
     fi
 }
 
+### NOW PART OF ISO INSTALL
 install_vscode() {
 #     || Visual Studio Code ||
 #     \\--------------------||
@@ -233,6 +244,7 @@ install_vscode() {
     chown $findUser:$userGroup $zshFile
 }
 
+### NOW PART OF ISO INSTALL
 install_msteams() {
 #     || Microsoft Teams ||
 #     \\-----------------||
@@ -244,6 +256,7 @@ install_msteams() {
     fi
 }
 
+### NOW PART OF ISO INSTALL
 install_slack() {
 #     || Slack Desktop ||
 #     \\---------------||
@@ -255,6 +268,7 @@ install_slack() {
     fi
 }
 
+### NOW PART OF ISO INSTALL
 install_remmina() {
 #     || Remmina Remote Desktop ||
 #     \\------------------------||
@@ -266,6 +280,7 @@ install_remmina() {
     fi
 }
 
+### NOW PART OF ISO INSTALL
 install_btop() {
 #     || btop++ ||
 #     \\--------||
@@ -305,6 +320,7 @@ install_exa() {
     chown $findUser:$userGroup $aliasesFile
 }
 
+# ALREADY INSTALLED
 install_bat() {
 #     || bat (cat replacement) ||
 #     \\-----------------------||
@@ -351,8 +367,9 @@ install_aws_cli() {
 
     paru -Q aws-cli-v2-bin > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
-        installAwsCli="paru -Sy aur/aws-cli-v2-bin --needed --noconfirm"
-        sudo -u $findUser $installAwsCli
+        #installAwsCli="paru -Sy aur/aws-cli-v2-bin --needed --noconfirm"
+        #sudo -u $findUser $installAwsCli
+        paru -Sy community/aws-cli-v2 --needed --noconfirm
         echo -e "\n  $greenplus AWS CLI : installed"
     fi
 }
@@ -462,11 +479,11 @@ install_p10k
 install_python
 manual_pip2_install
 install_flameshot
-install_vscode
-install_msteams
-install_slack
-install_remmina
-install_btop
+#install_vscode - part of iso install
+#install_msteams - part of iso install
+#install_slack - part of iso install
+#install_remmina - part of iso install
+#install_btop - part of iso install
 #install_stacer
 install_exa
 install_bat

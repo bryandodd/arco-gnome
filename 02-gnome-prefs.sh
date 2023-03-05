@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Arcolinux | Gnome Customization - Author: Bryan Dodd
+# 01-gnome-prefs.sh
+#
+# Disclaimer: Author assumes no liability for any damage resulting from use, misuse, or any other crazy
+#             idea somebody attempts using, incorporating, deconstructing, or anything else with this tool.
+
+# revision
+    revision="0.2.1"
+    baseDistro="v23.03.01"
+
 # colors
     color_nocolor='\e[0m'
     color_black='\e[0;30m'
@@ -47,8 +57,9 @@
 
 
 tweak_settings() {
-#     || Tweak Gnome settings ||
-#     \\----------------------||
+#     || Tweak Gnome settings       ||
+#     || (use dconf-editor for gui) ||
+#     \\----------------------------||
     echo -e "\n${color_cyan}Setting appearance to dark mode ...${color_nocolor}"
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
@@ -80,13 +91,13 @@ tweak_settings() {
     gsettings set org.gnome.desktop.interface font-name 'NotoSans Nerd Font 11'
 
     echo -e "\n${color_cyan}Set system document font ...${color_nocolor}"
-    gsettings set org.gnome.desktop.interface font-name 'NotoSans Nerd Font 11'
+    gsettings set org.gnome.desktop.interface document-font-name 'NotoSans Nerd Font 11'
 
     echo -e "\n${color_cyan}Set system monospace font ...${color_nocolor}"
     gsettings set org.gnome.desktop.interface monospace-font-name 'SauceCodePro Nerd Font 10'
 
     echo -e "\n${color_cyan}Set legacy window title font ...${color_nocolor}"
-    gsettings set org.gnome.desktop.interface monospace-font-name 'NotoSans Nerd Font 11'
+    gsettings set org.gnome.desktop.wm.preferences titlebar-font 'NotoSans Nerd Font 11'
 }
 
 set_vscode_default() {
