@@ -9,6 +9,7 @@
 # revision
     revision="0.2.1"
     baseDistro="v23.03.01"
+    repoBranch="v23.03.01"
 
 # colors
     color_nocolor='\e[0m'
@@ -45,7 +46,7 @@
     fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
 
 # static files
-    kitty_conf="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/kitty/kitty.conf"
+    kitty_conf="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/kitty/kitty.conf"
 
 # helpers
     findUser=$(logname)

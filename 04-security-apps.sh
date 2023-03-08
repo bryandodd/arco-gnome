@@ -9,6 +9,7 @@
 # revision
     revision="0.2.1"
     baseDistro="v23.03.01"
+    repoBranch="v23.03.01"
 
 # colors
     color_nocolor='\e[0m'
@@ -46,12 +47,12 @@
 
 # static files
     smbOrigConf="https://git.samba.org/samba.git/?p=samba.git;a=blob_plain;f=examples/smb.conf.default;hb=HEAD"
-    smbCustConf="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/smb/smb.conf"
-    smbAddShare="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/smb/addshare.py"
-    smbSetOpt="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/smb/setoption.py"
-    smbPanic="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/smb/panic-action"
-    smbUpdate="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/smb/update-apparmor-samba-profile"
-    pyLeetGen="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/python/leetgen.py"
+    smbCustConf="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/smb/smb.conf"
+    smbAddShare="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/smb/addshare.py"
+    smbSetOpt="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/smb/setoption.py"
+    smbPanic="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/smb/panic-action"
+    smbUpdate="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/smb/update-apparmor-samba-profile"
+    pyLeetGen="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/python/leetgen.py"
 
 # helpers
     findUser=$(logname)

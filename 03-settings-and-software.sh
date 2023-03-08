@@ -9,6 +9,7 @@
 # revision
     revision="0.2.1"
     baseDistro="v23.03.01"
+    repoBranch="v23.03.01"
 
 # colors
     color_nocolor='\e[0m'
@@ -45,14 +46,15 @@
     fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
 
 # static files
-    neofetch_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/neofetch/config.conf"
-    zshrc_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/zsh/.zshrc"
-    aliases_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/zsh/.aliases"
-    p10k_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/zsh/.p10k.zsh"
-    bat_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/bat/config"
-    aws_update_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/scripts/update-aws-cli.sh"
-    aws_remove_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/scripts/remove-aws-cli.sh"
-    pip2_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/main/configs/python/pip2/get-pip.py"
+    neofetch_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/neofetch/config.conf"
+    zshrc_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/zsh/.zshrc"
+    aliases_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/zsh/.aliases"
+    p10k_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/zsh/.p10k.zsh"
+    bat_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/bat/config"
+    aws_update_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/scripts/update-aws-cli.sh"
+    aws_remove_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/scripts/remove-aws-cli.sh"
+    pip2_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/python/pip2/get-pip.py"
+    gpg_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/gpg/gpg.conf"
 
 # helpers
     findUser=$(logname)
@@ -469,6 +471,58 @@ install_eksctl() {
     fi
 }
 
+install_gpgdeps() {
+#     || gpg dependencies ||
+#     \\------------------||
+#      \\-- intended for use with yubikey
+
+    paru -Q pcsclite > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/pcsclite --needed --noconfirm
+        echo -e "\n  $greenplus pcsclite : installed"
+    fi
+
+    paru -Q ccid > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/ccid --needed --noconfirm
+        echo -e "\n  $greenplus ccid : installed"
+    fi
+
+    paru -Q hopenpgp-tools > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/hopenpgp-tools --needed --noconfirm
+        echo -e "\n  $greenplus hopenpgp-tools : installed"
+    fi
+
+    paru -Q yubikey-personalization > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/yubikey-personalization --needed --noconfirm
+        echo -e "\n  $greenplus yubikey-personalization : installed"
+    fi
+
+    paru -Q yubikey-manager-qt > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/yubikey-manager-qt --needed --noconfirm
+        echo -e "\n  $greenplus yubikey-manager-qt : installed"
+    fi
+
+    # replace gpg.conf with copy from repo
+    gpgConfig="/home/$findUser/.gnupg/gpg.conf"
+    if [[ -f "$zshFile" ]]; then
+        cp $gpgConfig /home/$findUser/.gnupg/gpg.bak
+    fi
+
+    eval wget -q $gpg_new -O $gpgConfig
+    echo -e "\n  $greenplus gpg : replaced gpg.conf with file from repo"
+    chown $findUser:$userGroup $gpgConfig
+}
+
+notes_gpg() {
+    # Follow-up notes regarding use of gpg:
+    echo -e "\n   Use$color_other_yellow sudo systemctl enable pcscd.service$color_nocolor to activate at startup."
+    echo -e "   Use$color_other_yellow sudo systemctl start pcscd.service$color_nocolor to start the pcsc daemon.\n"
+}
+
 check_architecture() {
 #     || vendor-specific cpu code ||
 #     \\--------------------------||
@@ -518,6 +572,10 @@ install_kubectl
 install_kubectx
 install_aws_iam_authenticator
 install_eksctl
+install_gpgdeps
+
 check_architecture
+
+notes_gpg
 
 echo -e "\n  $blinkwarn COMPLETE : Reboot required. Proceed with any additional scripts after successful restart."
