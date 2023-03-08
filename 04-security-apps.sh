@@ -180,41 +180,20 @@ notes_samba() {
 install_impacket() {
 #     || Impacket ||
 #     \\----------||
-#      \\-- version 0.9.19 (line 912)
+#      \\-- version 0.10.0
 
     tmpDir="/home/$findUser/tmp-installer"
     [ -d $tmpDir ] || mkdir $tmpDir
 
-    eval wget -q https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O $tmpDir/impacket-0.9.19.tar.gz
-    eval tar xfz $tmpDir/impacket-0.9.19.tar.gz -C /opt
-    chown -R $sudoUser:$sudoGroup /opt/impacket-0.9.19
-    chmod -R 755 /opt/impacket-0.9.19
+    eval wget -q https://github.com/fortra/impacket/releases/download/impacket_0_10_0/impacket-0.10.0.tar.gz -O $tmpDir/impacket-0.10.0.tar.gz
+    eval tar xfz $tmpDir/impacket-0.10.0.tar.gz -C /opt
+    chown -R $sudoUser:$sudoGroup /opt/impacket-0.10.0
+    chmod -R 755 /opt/impacket-0.10.0
 
-    cd /opt/impacket-0.9.19
-    eval pip3 install lsassy
-    echo -e "\n  $greenplus pip3 : installed$color_other_yellow lsassy $color_nocolor \n"
-    eval pip2 install flask
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow flask $color_nocolor \n"
-    eval pip2 install pyasn1
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow pyasn1 $color_nocolor \n"
-    eval pip2 install pycryptodomex
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow pycryptodomex $color_nocolor \n"
-    eval pip2 install pyOpenSSL
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow pyOpenSSL $color_nocolor \n"
-    eval pip2 install ldap3
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow ldap3 $color_nocolor \n"
-    eval pip2 install ldapdomaindump
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow ldapdomaindump $color_nocolor \n"
-    eval pip2 install wheel
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow wheel $color_nocolor \n"
-    eval pip2 install .
-    echo -e "\n  $greenplus pip2 : installed$color_other_yellow impacket $color_nocolor \n"
-    rm -f $tmpDir/impacket-0.9.19.tar.gz
-
-    #paru -Q impacket > /dev/null 2>&1
-    #if [[ $? -ne 0 ]]; then
-    #    paru -Sy community/impacket --needed --noconfirm
-    #fi
+    cd /opt/impacket-0.10.0
+    python3 -m pip install .
+    echo -e "\n  $greenplus pip3 : installed$color_other_yellow impacket$color_nocolor requirements \n"
+    rm -f $tmpDir/impacket-0.10.0.tar.gz
 
     echo -e "\n  $greenplus impacket : impacket and supporting packages installed \n"
 }
@@ -304,7 +283,7 @@ install_amass() {
 #     \\----------------||
 #      \\-- https://github.com/OWASP/Amass
 
-    amassVer="v3.19.2"
+    amassVer="v3.22.0"
     amassPath="https://github.com/OWASP/Amass/releases/download/$amassVer/amass_linux_amd64.zip"
 
     if [ -d /opt/amass_linux_amd64 ]; then
@@ -468,12 +447,12 @@ install_mitm6() {
 
         # install from source
         cd $mitmDir
-        eval pip2 install -r requirements.txt
-        echo -e "\n  $greenplus pip2 : installed$color_other_yellow mitm6 requirements $color_nocolor \n"
-        eval python2 setup.py install
-        echo -e "\n  $greenplus python2 : installed$color_other_yellow mitm6 $color_nocolor \n"
-        eval pip2 install service_identity
-        echo -e "\n  $greenplus pip2 : installed$color_other_yellow mitm6 post-requirement :: service_identity $color_nocolor \n"
+        eval pip install -r requirements.txt
+        echo -e "\n  $greenplus pip3 : installed$color_other_yellow mitm6 requirements $color_nocolor \n"
+        eval python setup.py install
+        echo -e "\n  $greenplus python3 : installed$color_other_yellow mitm6 $color_nocolor \n"
+        eval pip install service_identity
+        echo -e "\n  $greenplus pip3 : installed$color_other_yellow mitm6 post-requirement :: service_identity $color_nocolor \n"
     fi
 }
 

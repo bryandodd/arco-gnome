@@ -151,11 +151,11 @@ install_python() {
         echo -e "\n  $greenplus Python3 : installed"
     fi
 
-    paru -Q python2 > /dev/null 2>&1
-    if [[ $? -ne 0 ]]; then
-        paru -Sy python2 --needed --noconfirm
-        echo -e "\n  $greenplus Python2 : installed"
-    fi
+    #paru -Q python2 > /dev/null 2>&1
+    #if [[ $? -ne 0 ]]; then
+    #    paru -Sy python2 --needed --noconfirm
+    #    echo -e "\n  $greenplus Python2 : installed"
+    #fi
 
     paru -Q python-setuptools > /dev/null 2>&1
     if [[ $? -ne 0 ]]; then
@@ -163,11 +163,11 @@ install_python() {
         echo -e "\n  $greenplus Python3 Setup Tools : installed"
     fi
 
-    paru -Q python2-setuptools > /dev/null 2>&1
-    if [[ $? -ne 0 ]]; then
-        paru -Sy python2-setuptools --needed --noconfirm
-        echo -e "\n  $greenplus Python2 Setup Tools : installed"
-    fi
+    #paru -Q python2-setuptools > /dev/null 2>&1
+    #if [[ $? -ne 0 ]]; then
+    #    paru -Sy python2-setuptools --needed --noconfirm
+    #    echo -e "\n  $greenplus Python2 Setup Tools : installed"
+    #fi
 
     #paru -Q python2-pip > /dev/null 2>&1
     #if [[ $? -ne 0 ]]; then
@@ -477,7 +477,7 @@ check_architecture() {
 config_neofetch
 install_p10k
 install_python
-manual_pip2_install
+#manual_pip2_install
 install_flameshot
 #install_vscode - part of iso install
 #install_msteams - part of iso install
