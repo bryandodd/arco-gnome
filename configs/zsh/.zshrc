@@ -77,7 +77,9 @@ export ZSH=/usr/share/oh-my-zsh/
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+if [ -f $ZSH/oh-my-zsh.sh ]; then
+  source $ZSH/oh-my-zsh.sh
+fi
 
 # User configuration
 
@@ -100,7 +102,14 @@ source $ZSH/oh-my-zsh.sh
 ####   ARCOLINUX SETTINGS   ####
 
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 setopt GLOB_DOTS
@@ -115,6 +124,12 @@ export HISTCONTROL=ignoreboth:erasedups
 
 export EDITOR="code --wait"
 export VISUAL="code --wait"
+
+# pass config
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_EXTENSIONS_DIR=/usr/lib/password-store/extensions
+export PASSWORD_STORE_CHARACTER_SET=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890\!@\#$%^\*
+export PASSWORD_STORE_GENERATED_LENGTH=16
 
 #PS1='[\u@\h \W]\$ '
 
@@ -140,22 +155,20 @@ fi
 #shopt -s expand_aliases # expand aliases
 
 # reporting tools - install when not installed
-# install neofetch
 neofetch
-# install screenfetch
 #screenfetch
-# install ufetch-git
-#ufetch
-# install ufetch-arco-git
-#ufetch-arco
-# install arcolinux-paleofetch-git
-#paleofetch
-# install alsi
 #alsi
-# install arcolinux-bin-git - standard on ArcoLinux isos (or sfetch - smaller)
+#paleofetch
+#fetch
 #hfetch
-# install lolcat
-#sfetch | lolcat
+#sfetch
+#ufetch
+#ufetch-arco
+#pfetch
+#sysinfo
+#sysinfo-retro
+#cpufetch
+#colorscript random
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

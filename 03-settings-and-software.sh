@@ -139,6 +139,13 @@ install_p10k() {
     eval wget -q $p10k_new -O $p10kFile
     echo -e "\n  $greenplus p10k.zsh : copied p10k config from repo"
     chown $findUser:$userGroup $p10kFile
+
+    # install zsh-autosuggestions
+    paru -Q zsh-autosuggestions > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/zsh-autosuggestions --needed --noconfirm
+        echo -e "\n  $greenplus zsh-autosuggestions : installed"
+    fi
 }
 
 install_python() {
@@ -361,6 +368,23 @@ install_oathtoolkit() {
     fi
 }
 
+install_pass() {
+#     || pass (gpg password manager) ||
+#     \\-----------------------------||
+
+    paru -Q pass > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/pass --needed --noconfirm
+        echo -e "\n  $greenplus pass : installed"
+    fi
+
+    paru -Q pass-otp > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/pass-otp --needed --noconfirm
+        echo -e "\n  $greenplus pass-otp : installed"
+    fi
+}
+
 install_aws_cli() {
 #     || aws cli ||
 #     \\---------||
@@ -488,6 +512,7 @@ install_flameshot
 install_exa
 install_bat
 install_oathtoolkit
+install_pass
 install_aws_cli
 install_kubectl
 install_kubectx

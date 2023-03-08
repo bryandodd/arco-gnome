@@ -103,6 +103,18 @@ install_golang() {
     chown $findUser:$userGroup $zshFile
 }
 
+install_gopass() {
+#     || gopass (gpg password manager) ||
+#     \\-------------------------------||
+#      \\-- https://github.com/gopasspw/gopass
+
+    paru -Q gopass > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        paru -Sy community/gopass --needed --noconfirm
+        echo -e "\n  $greenplus gopass : installed"
+    fi
+}
+
 install_samba() {
 #     || SMB support ||
 #     \\-------------||
@@ -460,6 +472,7 @@ install_mitm6() {
 # || BEGIN ||
 # \\-------||
 install_golang
+install_gopass
 install_samba
 install_impacket
 install_nmap

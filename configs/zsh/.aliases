@@ -160,6 +160,14 @@ alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
 #Cleanup orphaned packages
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 
+# This will generate a list of explicitly installed packages
+alias list="sudo pacman -Qqe"
+#This will generate a list of explicitly installed packages without dependencies
+alias listt="sudo pacman -Qqet"
+# list of AUR packages
+alias listaur="sudo pacman -Qqem"
+# add > list at the end to write to a file
+
 #search content with ripgrep
 alias rg="rg --sort path"
 
@@ -168,6 +176,7 @@ alias jctl="journalctl -p 3 -xb"
 
 #nano for important configuration files
 #know what you do in these files
+alias nlxdm="sudo $EDITOR /etc/lxdm/lxdm.conf"
 alias nlightdm="sudo $EDITOR /etc/lightdm/lightdm.conf"
 alias npacman="sudo $EDITOR /etc/pacman.conf"
 alias ngrub="sudo $EDITOR /etc/default/grub"
@@ -181,8 +190,29 @@ alias nfstab="sudo $EDITOR /etc/fstab"
 alias nnsswitch="sudo $EDITOR /etc/nsswitch.conf"
 alias nsamba="sudo $EDITOR /etc/samba/smb.conf"
 alias ngnupgconf="sudo $EDITOR /etc/pacman.d/gnupg/gpg.conf"
-alias nb="$EDITOR ~/.bashrc"
-alias nz="$EDITOR ~/.zshrc"
+#alias nhosts="sudo $EDITOR /etc/hosts"
+alias nhostname="sudo $EDITOR /etc/hostname"
+alias nresolv="sudo $EDITOR /etc/resolv.conf"
+#alias nb="$EDITOR ~/.bashrc"
+#alias nz="$EDITOR ~/.zshrc"
+#alias nf="$EDITOR ~/.config/fish/config.fish"
+alias nneofetch="$EDITOR ~/.config/neofetch/config.conf"
+
+# show the list of packages that need this package - depends mpv as example
+function_depends()  {
+    search=$(echo "$1")
+    sudo pacman -Sii $search | grep "Required" | sed -e "s/Required By     : //g" | sed -e "s/  /\n/g"
+}
+
+alias depends='function_depends'
+
+# show the list of files installed by a package
+function_listinstalled()  {
+    search=$(echo "$1")
+    sudo paru -Ql $search
+}
+
+alias installed='function_listinstalled'
 
 #gpg
 #verify signature for isos
@@ -192,18 +222,30 @@ alias nz="$EDITOR ~/.zshrc"
 #alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 #alias fix-gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 #alias fix-keyserver="[ -d ~/.gnupg ] || mkdir ~/.gnupg ; cp /etc/pacman.d/gnupg/gpg.conf ~/.gnupg/ ; echo 'done'"
+alias fingerprint="ssh-keygen -lf "
 
 #fixes
 alias fix-permissions="sudo chown -R $USER:$USER ~/.config ~/.local"
-#alias keyfix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+alias keyfix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+alias key-fix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+alias keys-fix="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+alias fixkey="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+alias fixkeys="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
 alias fix-key="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
-alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
+alias fix-keys="/usr/local/bin/arcolinux-fix-pacman-databases-and-keys"
+#fix-sddm-config is no longer an alias but an application - part of ATT
+#alias fix-sddm-config="/usr/local/bin/arcolinux-fix-sddm-config"
 alias fix-pacman-conf="/usr/local/bin/arcolinux-fix-pacman-conf"
 alias fix-pacman-keyserver="/usr/local/bin/arcolinux-fix-pacman-gpg-conf"
+alias fix-grub="/usr/local/bin/arcolinux-fix-grub"
 
 #maintenance
 #alias big="expac -H M '%m\t%n' | sort -h | nl"
 #alias downgrada="sudo downgrade --ala-url https://ant.seedhost.eu/arcolinux/"
+
+#hblock (stop tracking with hblock)
+#use unhblock to stop using hblock
+alias unhblock="hblock -S none -D none"
 
 #systeminfo
 alias probe="sudo -E hw-probe -all -upload"
@@ -211,15 +253,14 @@ alias sysfailed="systemctl list-units --failed"
 
 #shutdown or reboot
 #alias ssn="sudo shutdown now"
-#alias sr="sudo reboot"
+#alias sr="reboot"
 
 #update betterlockscreen images
 #alias bls="betterlockscreen -u /usr/share/backgrounds/arcolinux/"
 
 #give the list of all installed desktops - xsessions desktops
 #alias xd="ls /usr/share/xsessions"
-
-
+#alias xdw="ls /usr/share/wayland-sessions"
 
 # # ex = EXtractor for all kinds of archives
 # # usage: ex <file>
@@ -248,8 +289,30 @@ ex ()
   fi
 }
 
+#wayland aliases
+#alias wsimplescreenrecorder="wf-recorder -a"
+
+#btrfs aliases
+#alias btrfsfs="sudo btrfs filesystem df /"
+#alias btrfsli="sudo btrfs su li / -t"
+
+#snapper aliases
+#alias snapcroot="sudo snapper -c root create-config /"
+#alias snapchome="sudo snapper -c home create-config /home"
+#alias snapli="sudo snapper list"
+#alias snapcr="sudo snapper -c root create"
+#alias snapch="sudo snapper -c home create"
+
+#Leftwm aliases
+#alias lti="leftwm-theme install"
+#alias ltu="leftwm-theme uninstall"
+#alias lta="leftwm-theme apply"
+#alias ltupd="leftwm-theme update"
+#alias ltupg="leftwm-theme upgrade"
+
 #arcolinux applications
-alias att="arcolinux-tweak-tool"
+#att is a symbolic link now
+#alias att="archlinux-tweak-tool"
 alias adt="arcolinux-desktop-trasher"
 alias abl="arcolinux-betterlockscreen"
 alias agm="arcolinux-get-mirrors"
@@ -260,8 +323,12 @@ alias atm="arcolinux-tellme"
 alias avs="arcolinux-vbox-share"
 alias awa="arcolinux-welcome-app"
 
-#remove
+#git
 #alias rmgitcache="rm -r ~/.cache/git"
+#alias grh="git reset --hard"
+
+#pamac
+alias pamac-unlock="sudo rm /var/tmp/pamac/dbs/db.lock"
 
 #moving your personal files and folders from /personal to ~
 #alias personal='cp -Rf /personal/* ~'
