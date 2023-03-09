@@ -9,7 +9,7 @@
 # revision
     revision="0.2.1"
     baseDistro="v23.03.01"
-    repoBranch="v23.03.01"
+    repoBranch="v0-2-1"
 
 # colors
     color_nocolor='\e[0m'

@@ -1,0 +1,6 @@
+
+Hosts github.com
+  AddKeysToAgent yes
+  HostName github.com
+  User git
+  PKCS11Provider /usr/lib/libykcs11.so

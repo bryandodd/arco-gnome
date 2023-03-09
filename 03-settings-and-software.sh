@@ -9,7 +9,7 @@
 # revision
     revision="0.2.1"
     baseDistro="v23.03.01"
-    repoBranch="v23.03.01"
+    repoBranch="v0-2-1"
 
 # colors
     color_nocolor='\e[0m'
@@ -55,6 +55,7 @@
     aws_remove_script="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/scripts/remove-aws-cli.sh"
     pip2_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/configs/python/pip2/get-pip.py"
     gpg_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/gpg/gpg.conf"
+    ssh_new="https://raw.githubusercontent.com/bryandodd/arco-gnome/$repoBranch/ssh/config"
 
 # helpers
     findUser=$(logname)
@@ -506,15 +507,32 @@ install_gpgdeps() {
         echo -e "\n  $greenplus yubikey-manager-qt : installed"
     fi
 
-    # replace gpg.conf with copy from repo
-    gpgConfig="/home/$findUser/.gnupg/gpg.conf"
-    if [[ -f "$zshFile" ]]; then
-        cp $gpgConfig /home/$findUser/.gnupg/gpg.bak
+    paru -Q yubico-piv-tool > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        installAwsIamAuth="paru -Sy aur/yubico-piv-tool --needed --noconfirm"
+        sudo -u $findUser $installAwsIamAuth
+        echo -e "\n  $greenplus yubico-piv-tool : installed"
     fi
 
-    eval wget -q $gpg_new -O $gpgConfig
-    echo -e "\n  $greenplus gpg : replaced gpg.conf with file from repo"
-    chown $findUser:$userGroup $gpgConfig
+    # get gpg.conf from repo unless it already exists
+    gpgConfig="/home/$findUser/.gnupg/gpg.conf"
+    if [[ -f "$gpgConfig" ]]; then
+        echo -e "\n  $cyanstar gpg : gpg.conf already exists - skipping repo copy"
+    else
+        eval wget -q $gpg_new -O $gpgConfig
+        echo -e "\n  $greenplus gpg : gpg.conf copied from repo"
+        chown $findUser:$userGroup $gpgConfig
+    fi
+
+    # get ssh config from repo unless it already exists
+    sshConfig="/home/$findUser/.ssh/config"
+    if [[ -f "$sshConfig" ]]; then
+        echo -e "\n  $cyanstar ssh : ssh config already exists - skipping repo copy"
+    else
+        eval wget -q $ssh_new -O $sshConfig
+        echo -e "\n  $greenplus ssh : ssh config copied from repo"
+        chown $findUser:$userGroup $sshConfig
+    fi
 }
 
 notes_gpg() {
