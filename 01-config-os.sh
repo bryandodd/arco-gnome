@@ -149,6 +149,18 @@ remove_bloat() {
             echo -e "  ${color_other_yellow}Didn't find $appName installed.${color_nocolor}\n"
         fi
     done
+
+    echo -e "\n${color_cyan}Removing deleted auto-start apps ...${color_nocolor}\n"
+    autoStartRemoval=("am-conky-session.desktop" "guake.desktop" "variety.desktop")
+    for appName in ${autoStartRemoval[@]}; do
+        launcher="/home/$findUser/.config/$appName"
+        rm $launcher
+        if [[ ! -f "$launcher" ]]; then
+            echo -e "  ${greenminus} auto-start : $appName removed\n"
+        else
+            echo -e "  ${color_other_yellow}Nothing to remove at path $launcher${color_nocolor}\n"
+        fi
+    done
 }
 
 get_prerequisites() {
@@ -208,6 +220,17 @@ gnome_ext_installers() {
         echo -e "\n  $greenplus gnome-shell-extension-installer : installed"
     fi
 
+#     || chrome native host connector ||
+#     \\------------------------------||
+#      \\ https://wiki.gnome.org/action/show/Projects/GnomeShellIntegration/Installation
+    paru -Q gnome-browser-connector-git > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        aurInstall="paru -Sy aur/gnome-browser-connector-git --needed --noconfirm"
+        sudo -u $findUser $aurInstall
+        echo -e "\n  $greenplus gnome-browser-connector-git : installed"
+    fi
+}
+
 #     || extension-manager (https://github.com/mjakeman/extension-manager) ||
 #     \\-------------------------------------------------------------------||
     paru -Q extension-manager > /dev/null 2>&1
@@ -235,13 +258,25 @@ install_extensions() {
 #     \\-----------------------------------------------------------------||
     gnome-shell-extension-installer 517 --yes
 
-#     || Transparent Topbar (https://extensions.gnome.org/extension/1765/transparent-topbar/) ||
-#     \\--------------------------------------------------------------------------------------||
-    #gnome-shell-extension-installer 1765 --yes
-
 #     || Clipboard Indicator (https://extensions.gnome.org/extension/779/clipboard-indicator/) ||
 #     \\---------------------------------------------------------------------------------------||
     gnome-shell-extension-installer 779 --yes
+
+#     || Burn My Windows (https://extensions.gnome.org/extension/4679/burn-my-windows/) ||
+#     \\---------------------------------------------------------------------------------------||
+    gnome-shell-extension-installer 4679 --yes
+
+#     || Removable Drive Menu (https://extensions.gnome.org/extension/7/removable-drive-menu/) ||
+#     \\---------------------------------------------------------------------------------------||
+    gnome-shell-extension-installer 7 --yes
+
+#     || Blur My Shell (https://extensions.gnome.org/extension/3193/blur-my-shell/) ||
+#     \\---------------------------------------------------------------------------------------||
+    gnome-shell-extension-installer 3193 --yes
+
+#     || Arch Linux Updates Indicator (https://extensions.gnome.org/extension/1010/archlinux-updates-indicator/) ||
+#     \\---------------------------------------------------------------------------------------||
+    gnome-shell-extension-installer 1010 --yes
 }
 
 revert_network_naming() {
@@ -319,8 +354,8 @@ install_p10k_fonts() {
     paru -Sy community/ttf-nerd-fonts-symbols-common --needed --noconfirm
     paru -Sy community/ttf-nerd-fonts-symbols-2048-em-mono --needed --noconfirm
     paru -Sy community/ttf-nerd-fonts-symbols-2048-em --needed --noconfirm
-    paru -Sy community/ttf-nerd-fonts-symbols-1000-em-mono --needed --noconfirm
-    paru -Sy community/ttf-nerd-fonts-symbols-1000-em --needed --noconfirm
+    #paru -Sy community/ttf-nerd-fonts-symbols-1000-em-mono --needed --noconfirm
+    #paru -Sy community/ttf-nerd-fonts-symbols-1000-em --needed --noconfirm
     echo -e "\n  $greenplus fonts : nerd fonts symbols packages (multiple) - installed"
 }
 
